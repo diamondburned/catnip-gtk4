@@ -41,20 +41,20 @@ func activate(ctx context.Context) {
 	}
 
 	display := catnipgtk.NewCairoDisplay(config.SampleRate, config.SampleSize)
-	instance := catnipctl.NewInstance(ctx, config, display)
-
-	a := app.FromContext(ctx)
-	a.ConnectShutdown(func() { instance.Finalize() })
-
-	prefs := preferences.NewPreferences(instance)
-
-	w := catnipgtk.NewWindow(adw.NewApplicationWindow(a.Application), display)
-	gtkutil.BindPopoverMenuAtMouse(w, gtk.PosBottom, [][2]string{
+	gtkutil.BindPopoverMenuAtMouse(display, gtk.PosBottom, [][2]string{
 		{"Preferences", "win.prefs"},
 		{"About", "win.about"},
 		{"Logs", "win.logs"},
 		{"Quit", "win.quit"},
 	})
+
+	instance := catnipctl.NewInstance(ctx, config, display)
+	prefs := preferences.NewPreferences(instance)
+
+	a := app.FromContext(ctx)
+	a.ConnectShutdown(func() { instance.Finalize() })
+
+	w := catnipgtk.NewWindow(adw.NewApplicationWindow(a.Application), display)
 	gtkutil.BindActionMap(w, map[string]func(){
 		"win.prefs": func() { prefs.Show() },
 		"win.logs":  func() { logui.ShowDefaultViewer(ctx) },
