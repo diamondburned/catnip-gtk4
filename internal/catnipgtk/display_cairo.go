@@ -114,7 +114,7 @@ func (d *displayOutput) Write(bins [][]float64, nchannels int) error {
 	d.lock.Lock()
 	defer d.lock.Unlock()
 
-	if len(d.binsBuffer) < len(bins) || len(d.binsBuffer[0]) < len(bins[0]) {
+	if len(d.binsBuffer) != len(bins) || len(d.binsBuffer[0]) != len(bins[0]) {
 		d.binsBuffer = input.MakeBuffers(len(bins), len(bins[0]))
 	}
 	input.CopyBuffers(d.binsBuffer, bins)

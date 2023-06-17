@@ -70,6 +70,11 @@ func (i *Instance) PauseUpdates() (resume func()) {
 	}
 }
 
+// UpdateIsPaused returns true if the Update function is paused.
+func (i *Instance) UpdateIsPaused() bool {
+	return i.paused != 0
+}
+
 // Update updates the catnip visualizer with the new settings and restarts it.
 // If the visualizer is not running, it will not be started.
 func (i *Instance) Update(f func(cfg *catnipgtk.Config)) {

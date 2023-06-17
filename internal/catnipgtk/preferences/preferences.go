@@ -56,16 +56,25 @@ func NewPreferences(controlling *catnipctl.Instance) *Preferences {
 
 	p.PreferencesWindow = p.built.Preference
 
+	p.built.Backend.SetModel(gtk.NewStringList(input.GetAllBackendNames()))
+	p.built.WindowFunc.SetModel(windowFuncsModel)
+	p.built.DrawStyle.SetModel(drawStylesModel)
+	p.built.LineCap.SetModel(lineCapsModel)
+
 	var deviceNames []string
 	var deviceNamesModel *gtk.StringList
 
 	p.built.Backend.NotifyProperty("selected", func() {
+		defer p.save()
+
 		resume := p.controlling.PauseUpdates()
 		defer resume()
 
 		backend := input.Backends[p.built.Backend.Selected()]
-		p.controlling.Update(func(config *catnipgtk.Config) {
+		var device string
+		p.update(func(config *catnipgtk.Config) {
 			config.Backend = backend.Name
+			device = config.Device
 		})
 
 		devices, err := backend.Devices()
@@ -81,11 +90,11 @@ func NewPreferences(controlling *catnipctl.Instance) *Preferences {
 		deviceNamesModel = gtk.NewStringList(deviceNames)
 		p.built.Device.SetModel(deviceNamesModel)
 
-		// Try to restore the previous device when switching backends, defaulting
-		// to the first device if not found. The emitted signal will update the
-		// config.
-		currentConfig := controlling.Config()
-		p.built.Device.SetSelected(uint(findOr(deviceNames, currentConfig.Device, 0)))
+		// Try to restore the previous device when switching backends,
+		// defaulting to the first device if not found. The emitted signal will
+		// update the config.
+		log.Println("Restoring device:", device)
+		p.built.Device.SetSelected(uint(findOr(deviceNames, device, 0)))
 	})
 
 	p.built.Device.NotifyProperty("selected", func() {
@@ -187,17 +196,15 @@ func NewPreferences(controlling *catnipctl.Instance) *Preferences {
 	resume := controlling.PauseUpdates()
 	defer resume()
 
-	p.built.Backend.SetModel(gtk.NewStringList(input.GetAllBackendNames()))
+	defer func() { log.Println(controlling.Config()) }()
+
 	p.built.Backend.SetSelected(uint(findOr(input.GetAllBackendNames(), currentConfig.Backend, 0)))
 	p.built.Monaural.SetActive(currentConfig.ChannelCount == 1)
 	p.built.SampleRate.SetValue(currentConfig.SampleRate)
 	p.built.SampleSize.SetValue(float64(currentConfig.SampleSize))
-	p.built.WindowFunc.SetModel(windowFuncsModel)
 	p.built.WindowFunc.SetSelected(uint(findOr(windowFuncs, currentConfig.WindowFunc, 0)))
 	p.built.SmoothFactor.SetValue(currentConfig.SmoothingFactor)
-	p.built.DrawStyle.SetModel(drawStylesModel)
 	p.built.DrawStyle.SetSelected(uint(findOr(drawStyles, currentConfig.DrawStyle, 0)))
-	p.built.LineCap.SetModel(lineCapsModel)
 	p.built.LineCap.SetSelected(uint(findOr(lineCaps, currentConfig.LineCap, 0)))
 	p.built.LineWidth.SetValue(currentConfig.LineWidth)
 	p.built.GapWidth.SetValue(currentConfig.GapWidth)
@@ -217,7 +224,9 @@ func (p *Preferences) save() {
 
 func (p *Preferences) update(f func(cfg *catnipgtk.Config)) {
 	p.controlling.Update(f)
-	p.save()
+	if !p.controlling.UpdateIsPaused() {
+		p.save()
+	}
 }
 
 func setComboBoxText(combo *gtk.ComboBoxText, values []string) {
