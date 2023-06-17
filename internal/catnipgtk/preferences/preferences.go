@@ -3,6 +3,7 @@ package preferences
 import (
 	"context"
 	_ "embed"
+	"fmt"
 	"log"
 	"path/filepath"
 
@@ -29,6 +30,7 @@ type Preferences struct {
 		Backend            *adw.ComboRow          `name:"backend"`
 		Device             *adw.ComboRow          `name:"device"`
 		Monaural           *gtk.Switch            `name:"monaural"`
+		SamplingGroup      *adw.PreferencesGroup  `name:"samplingGroup"`
 		SampleRate         *gtk.SpinButton        `name:"sampleRate"`
 		SampleSize         *gtk.SpinButton        `name:"sampleSize"`
 		WindowFunc         *adw.ComboRow          `name:"windowFunc"`
@@ -65,7 +67,7 @@ func NewPreferences(controlling *catnipctl.Instance) *Preferences {
 	var deviceNamesModel *gtk.StringList
 
 	p.built.Backend.NotifyProperty("selected", func() {
-		defer p.save()
+		defer p.save(p.controlling.Config())
 
 		resume := p.controlling.PauseUpdates()
 		defer resume()
@@ -213,7 +215,14 @@ func NewPreferences(controlling *catnipctl.Instance) *Preferences {
 	return p
 }
 
-func (p *Preferences) save() {
+func (p *Preferences) updateSamplingGroup(config *catnipgtk.Config) {
+	fₛ := float64(config.SampleRate) / float64(config.SampleSize)
+	p.built.SamplingGroup.SetDescription(fmt.Sprintf(
+		"fₛ ≈ %.1f samples/s, latency ≈ %.1fms", fₛ, 1000/fₛ,
+	))
+}
+
+func (p *Preferences) save(cfg *catnipgtk.Config) {
 	p.controlling.Config().SaveAsync(func(err error) {
 		if err != nil {
 			log.Println("failed to save preferences:", err)
@@ -223,9 +232,16 @@ func (p *Preferences) save() {
 }
 
 func (p *Preferences) update(f func(cfg *catnipgtk.Config)) {
-	p.controlling.Update(f)
+	var cfg *catnipgtk.Config
+	p.controlling.Update(func(c *catnipgtk.Config) {
+		f(c)
+		cfg = c
+	})
+
+	p.updateSamplingGroup(cfg)
+
 	if !p.controlling.UpdateIsPaused() {
-		p.save()
+		p.save(cfg)
 	}
 }
 

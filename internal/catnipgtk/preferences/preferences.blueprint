@@ -36,7 +36,7 @@ Adw.PreferencesWindow preference {
 			}
 		}
 
-		Adw.PreferencesGroup {
+		Adw.PreferencesGroup samplingGroup {
 			title: "Sampling";
       description: "fₛ ≈ %.1f samples/s, latency ≈ %.1fms";
 			styles ["catnip-preferences-sampling"]
@@ -57,7 +57,7 @@ Adw.PreferencesWindow preference {
 			  }
 			}
 
-			Adw.ActionRow {
+			Adw.ActionRow sampleSizeRow {
 			  title: "Sample Size";
 			  subtitle: "The sample size to record; higher is more accurate but slower.";
 			  activatable-widget: sampleSize;
@@ -65,10 +65,10 @@ Adw.PreferencesWindow preference {
 			  Gtk.SpinButton sampleSize {
 				  valign: center;
 			    adjustment: Gtk.Adjustment {
-			      lower: 1;
-			      upper: 102400;
-			      value: 1024;
-			      step-increment: 512;
+			      lower: 64;
+			      upper: 4096;
+			      value: 2048;
+			      step-increment: 64;
 			    };
 			  }
 			}
@@ -95,7 +95,7 @@ Adw.PreferencesWindow preference {
 			    adjustment: Gtk.Adjustment {
 			      lower: 0;
 			      upper: 1;
-			      step-increment: 2;
+			      step-increment: 0.01;
 			    };
 			  }
 			}
@@ -134,8 +134,8 @@ Adw.PreferencesWindow preference {
 	        valign: center;
 			    adjustment: Gtk.Adjustment {
 			      lower: 0;
-			      upper: 100;
-			      step-increment: 0.1;
+			      upper: 25;
+			      step-increment: 1;
 			    };
 	      }
 	    }

@@ -6,13 +6,13 @@ github.com/diamondburned/gotk4/pkg v0.0.6-0.20230612080024-fd960d20b525 h1:xNx4S
 github.com/diamondburned/gotk4/pkg v0.0.6-0.20230612080024-fd960d20b525/go.mod h1:Jr5xzUuGyLsoMtE9LzE/Lay1gD0ONiFWAmQ0+Z6KLeA=
 github.com/diamondburned/gotkit v0.0.0-20230612021745-9aba023f76e6 h1:UBKjbj0Y9O5B9smSbxi717V5ODMWaQYzSDXqVjcFUAU=
 github.com/diamondburned/gotkit v0.0.0-20230612021745-9aba023f76e6/go.mod h1:2haF0q5bOnDLiP6LSyV2RDOajrihCIZCUjWIfe0oFUw=
-github.com/diamondburned/tavis v0.0.0-20230604231319-c0b39554cc8d h1:mKC0If1EtMRyB/iUFtRuoPUKPbulz8G+7VZYF9H8DBw=
-github.com/diamondburned/tavis v0.0.0-20230604231319-c0b39554cc8d/go.mod h1:1BXbAaf4gtXSX6yXmPfze8MTls86AB7mz6FI+CKX4RA=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20200222043503-6f7a984d4dc4/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
 github.com/leonelquinteros/gotext v1.5.3-0.20230509185024-db315c34509b h1:EJcGAFxsJ3SchhsAViiAOAmamU7eU0ZID8S5FdC2NP4=
 github.com/leonelquinteros/gotext v1.5.3-0.20230509185024-db315c34509b/go.mod h1:AT4NpQrOmyj1L/+hLja6aR0lk81yYYL4ePnj2kp7d6M=
 github.com/noisetorch/pulseaudio v0.0.0-20220603053345-9303200c3861 h1:Xng5X+MlNK7Y/Ede75B86wJgaFMFvuey1K4Suh9k2E4=
 github.com/noisetorch/pulseaudio v0.0.0-20220603053345-9303200c3861/go.mod h1:/zosM8PSkhuVyfJ9c/qzBhPSm3k06m9U4y4SDfH0jeA=
+github.com/noriah/catnip v1.8.1-0.20230604231319-c0b39554cc8d h1:mWjC4PXncEonHlu1F/XkLNfhU8CEQkW+26kOwp+UW6c=
+github.com/noriah/catnip v1.8.1-0.20230604231319-c0b39554cc8d/go.mod h1:1BXbAaf4gtXSX6yXmPfze8MTls86AB7mz6FI+CKX4RA=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/yalue/merged_fs v1.2.3 h1:lJ32O+ZiVF4h+4SD8e7IfG8+V2Em4LPcT3Z7h2n2TrY=

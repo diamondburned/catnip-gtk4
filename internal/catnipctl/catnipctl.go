@@ -35,9 +35,10 @@ func NewInstance(ctx context.Context, config catnipgtk.Config, display catnipgtk
 	}
 }
 
-// Config returns the current configuration.
-func (i *Instance) Config() catnipgtk.Config {
-	return i.config
+// Config returns a copy of the current configuration.
+func (i *Instance) Config() *catnipgtk.Config {
+	cfg := i.config
+	return &cfg
 }
 
 // Context returns the context of the instance.

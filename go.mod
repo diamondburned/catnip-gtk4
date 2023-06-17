@@ -2,13 +2,11 @@ module libdb.so/catnip-gtk4
 
 go 1.20
 
-replace github.com/noriah/catnip => github.com/diamondburned/tavis v0.0.0-20230604231319-c0b39554cc8d
-
 require (
 	github.com/diamondburned/gotk4-adwaita/pkg v0.0.0-20230307040502-bfe82926e1be
 	github.com/diamondburned/gotk4/pkg v0.0.6-0.20230612080024-fd960d20b525
 	github.com/diamondburned/gotkit v0.0.0-20230612021745-9aba023f76e6
-	github.com/noriah/catnip v1.8.1-0.20230424194741-5ab3bc994091
+	github.com/noriah/catnip v1.8.1-0.20230604231319-c0b39554cc8d
 )
 
 require (
