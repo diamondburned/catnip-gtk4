@@ -62,6 +62,6 @@ func activate(ctx context.Context) {
 		"win.quit":  func() { a.Quit() },
 	})
 
-	w.Show()
+	w.Window().Show()
 	instance.Start()
 }

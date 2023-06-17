@@ -7,11 +7,20 @@ import (
 
 // Window is the main catnip visualizer window.
 type Window struct {
-	*adw.ApplicationWindow
+	AdwWindow
+}
+
+// AdwWindow is the interface for adwaita's ApplicationWindow.
+type AdwWindow interface {
+	gtk.Widgetter
+	AddCSSClass(string)
+	SetTitle(string)
+	SetDefaultSize(int, int)
+	SetContent(gtk.Widgetter)
 }
 
 // NewWindow creates a new catnip visualizer window.
-func NewWindow[AdwWindow *adw.Window | *adw.ApplicationWindow](window AdwWindow, display Display) *Window {
+func NewWindow(window AdwWindow, display Display) *Window {
 	wndh := gtk.NewWindowHandle()
 	wndh.SetChild(display)
 
@@ -28,17 +37,22 @@ func NewWindow[AdwWindow *adw.Window | *adw.ApplicationWindow](window AdwWindow,
 	woverlay.AddOverlay(wrcontrols)
 	woverlay.SetChild(wndh)
 
-	w := gtk.Widgetter(window).(interface {
-		gtk.Widgetter
-		AddCSSClass(string)
-		SetTitle(string)
-		SetDefaultSize(int, int)
-		SetContent(gtk.Widgetter)
-	})
-	w.AddCSSClass("catnip-window")
-	w.SetTitle("Catnip")
-	w.SetDefaultSize(600, 350)
-	w.SetContent(woverlay)
+	window.AddCSSClass("catnip-window")
+	window.SetTitle("Catnip")
+	window.SetDefaultSize(600, 350)
+	window.SetContent(woverlay)
 
-	return &Window{w}
+	return &Window{window}
+}
+
+// Window returns the underlying gtk.Window.
+func (w *Window) Window() *gtk.Window {
+	switch window := w.AdwWindow.(type) {
+	case *adw.Window:
+		return &window.Window
+	case *adw.ApplicationWindow:
+		return &window.Window
+	default:
+		panic("unknown window type")
+	}
 }
