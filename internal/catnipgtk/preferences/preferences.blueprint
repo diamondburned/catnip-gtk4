@@ -1,0 +1,191 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.PreferencesWindow preference {
+  can-navigate-back: true;
+  search-enabled: true;
+  styles ["catnip-preferences"]
+
+	Adw.PreferencesPage {
+	  title: "Audio";
+	  icon-name: "audio-card-symbolic";
+
+		Adw.PreferencesGroup {
+			title: "Input";
+			styles ["catnip-preferences-input"]
+
+			Adw.ComboRow backend {
+				title: "Backend";
+				subtitle: "The input backend to use.";
+			}
+
+			Adw.ComboRow device {
+				title: "Device";
+				subtitle: "The input audio device to use.";
+			}
+			
+			Adw.ActionRow {
+			  title: "Monaural";
+			  subtitle: "Whether to only use 1 audio channel or 2 if false.";
+			  activatable-widget: monaural;
+			  
+			  Gtk.Switch monaural {
+			    valign: center;
+			    active: false;
+			  }
+			}
+		}
+
+		Adw.PreferencesGroup {
+			title: "Sampling";
+      description: "fₛ ≈ %.1f samples/s, latency ≈ %.1fms";
+			styles ["catnip-preferences-sampling"]
+
+			Adw.ActionRow {
+			  title: "Sample Rate (Hz)";
+			  subtitle: "The sample rate to record; higher is more accurate.";
+			  activatable-widget: sampleRate;
+			  
+			  Gtk.SpinButton sampleRate {
+				  valign: center;
+			    adjustment: Gtk.Adjustment {
+			      lower: 4000;
+			      upper: 192000;
+			      value: 48000;
+			      step-increment: 100;
+			    };
+			  }
+			}
+
+			Adw.ActionRow {
+			  title: "Sample Size";
+			  subtitle: "The sample size to record; higher is more accurate but slower.";
+			  activatable-widget: sampleSize;
+			  
+			  Gtk.SpinButton sampleSize {
+				  valign: center;
+			    adjustment: Gtk.Adjustment {
+			      lower: 1;
+			      upper: 102400;
+			      value: 1024;
+			      step-increment: 512;
+			    };
+			  }
+			}
+		}
+		
+		Adw.PreferencesGroup {
+			title: "Signal Processing";
+			styles ["catnip-preferences-signal-processing"]
+			
+			Adw.ComboRow windowFunc {
+			  title: "Window Function";
+			  subtitle: "The <a href=\"https://en.wikipedia.org/wiki/Window_function\">window function</a> to use for signal processing.";
+        subtitle-lines: 0;
+        use-markup: true;
+      }
+
+			Adw.ActionRow {
+			  title: "Smooth Factor";
+			  subtitle: "The variable for smoothing; higher means smoother.";
+			  activatable-widget: smoothFactor;
+			  
+			  Gtk.SpinButton smoothFactor {
+			    valign: center;
+			    adjustment: Gtk.Adjustment {
+			      lower: 0;
+			      upper: 1;
+			      step-increment: 2;
+			    };
+			  }
+			}
+		}
+	}
+
+	Adw.PreferencesPage {
+	  title: "Appearance";
+	  icon-name: "applications-graphics-symbolic";
+	  
+	  Adw.PreferencesGroup {
+	    title: "Style";
+			styles ["catnip-preferences-style"]
+
+	    Adw.ComboRow drawStyle {
+	      title: "Draw Style";
+	      subtitle: "Whether to draw bars or lines.";
+	    }
+	  }
+	  
+	  Adw.PreferencesGroup {
+	    title: "Lines and Bars";
+			styles ["catnip-preferences-lines-and-bars"]
+	    
+	    Adw.ComboRow lineCap {
+	      title: "Line Cap";
+	      subtitle: "Whether to draw the bar ends square or round.";
+	    }
+	    
+	    Adw.ActionRow {
+	      title: "Line Width";
+	      subtitle: "The thickness of the bar or line.";
+	      activatable-widget: lineWidth;
+	      
+	      Gtk.SpinButton lineWidth {
+	        valign: center;
+			    adjustment: Gtk.Adjustment {
+			      lower: 0;
+			      upper: 100;
+			      step-increment: 0.1;
+			    };
+	      }
+	    }
+	    
+	    Adw.ActionRow {
+	      title: "Gap Width";
+	      subtitle: "The width of the gaps between bars or points on the line.";
+	      activatable-widget: gapWidth;
+	      
+	      Gtk.SpinButton gapWidth {
+	        valign: center;
+			    adjustment: Gtk.Adjustment {
+			      lower: 0;
+			      upper: 25;
+			      step-increment: 1;
+			    };
+	      }
+	    }
+	  }
+	  
+	  Adw.PreferencesGroup {
+	    title: "Advanced";
+			styles ["catnip-preferences-advanced"]
+	    
+	    Adw.ActionRow {
+	      title: "Custom CSS";
+        subtitle: "Please edit <tt>~/.config/catnip-gtk4/user.css</tt> instead.";
+        subtitle-selectable: true;
+        use-markup: true;
+        
+        Gtk.Button openCustomCSS {
+          valign: center;
+          
+          Adw.ButtonContent {
+            label: "Open";
+            icon-name: "document-open-symbolic";
+          }
+        }
+  	  }
+
+	    Adw.ActionRow {
+	      title: "Show Window Controls";
+        subtitle: "Whether to show the window controls in the titlebar.";
+        activatable-widget: showWindowControls;
+
+        Gtk.Switch showWindowControls {
+          valign: center;
+          active: true;
+        }
+  	  }
+	  }
+	}
+}

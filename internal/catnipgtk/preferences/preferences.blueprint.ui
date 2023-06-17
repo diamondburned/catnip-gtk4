@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="AdwPreferencesWindow" id="preference">
+    <property name="can-navigate-back">true</property>
+    <property name="search-enabled">true</property>
+    <style>
+      <class name="catnip-preferences"/>
+    </style>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title">Audio</property>
+        <property name="icon-name">audio-card-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Input</property>
+            <style>
+              <class name="catnip-preferences-input"/>
+            </style>
+            <child>
+              <object class="AdwComboRow" id="backend">
+                <property name="title">Backend</property>
+                <property name="subtitle">The input backend to use.</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="device">
+                <property name="title">Device</property>
+                <property name="subtitle">The input audio device to use.</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Monaural</property>
+                <property name="subtitle">Whether to only use 1 audio channel or 2 if false.</property>
+                <property name="activatable-widget">monaural</property>
+                <child>
+                  <object class="GtkSwitch" id="monaural">
+                    <property name="valign">center</property>
+                    <property name="active">false</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Sampling</property>
+            <property name="description">fₛ ≈ %.1f samples/s, latency ≈ %.1fms</property>
+            <style>
+              <class name="catnip-preferences-sampling"/>
+            </style>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Sample Rate (Hz)</property>
+                <property name="subtitle">The sample rate to record; higher is more accurate.</property>
+                <property name="activatable-widget">sampleRate</property>
+                <child>
+                  <object class="GtkSpinButton" id="sampleRate">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">4000</property>
+                        <property name="upper">192000</property>
+                        <property name="value">48000</property>
+                        <property name="step-increment">100</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Sample Size</property>
+                <property name="subtitle">The sample size to record; higher is more accurate but slower.</property>
+                <property name="activatable-widget">sampleSize</property>
+                <child>
+                  <object class="GtkSpinButton" id="sampleSize">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">1</property>
+                        <property name="upper">102400</property>
+                        <property name="value">1024</property>
+                        <property name="step-increment">512</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Signal Processing</property>
+            <style>
+              <class name="catnip-preferences-signal-processing"/>
+            </style>
+            <child>
+              <object class="AdwComboRow" id="windowFunc">
+                <property name="title">Window Function</property>
+                <property name="subtitle">The &lt;a href="https://en.wikipedia.org/wiki/Window_function"&gt;window function&lt;/a&gt; to use for signal processing.</property>
+                <property name="subtitle-lines">0</property>
+                <property name="use-markup">true</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Smooth Factor</property>
+                <property name="subtitle">The variable for smoothing; higher means smoother.</property>
+                <property name="activatable-widget">smoothFactor</property>
+                <child>
+                  <object class="GtkSpinButton" id="smoothFactor">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">1</property>
+                        <property name="step-increment">2</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title">Appearance</property>
+        <property name="icon-name">applications-graphics-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Style</property>
+            <style>
+              <class name="catnip-preferences-style"/>
+            </style>
+            <child>
+              <object class="AdwComboRow" id="drawStyle">
+                <property name="title">Draw Style</property>
+                <property name="subtitle">Whether to draw bars or lines.</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Lines and Bars</property>
+            <style>
+              <class name="catnip-preferences-lines-and-bars"/>
+            </style>
+            <child>
+              <object class="AdwComboRow" id="lineCap">
+                <property name="title">Line Cap</property>
+                <property name="subtitle">Whether to draw the bar ends square or round.</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Line Width</property>
+                <property name="subtitle">The thickness of the bar or line.</property>
+                <property name="activatable-widget">lineWidth</property>
+                <child>
+                  <object class="GtkSpinButton" id="lineWidth">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">100</property>
+                        <property name="step-increment">0.1</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Gap Width</property>
+                <property name="subtitle">The width of the gaps between bars or points on the line.</property>
+                <property name="activatable-widget">gapWidth</property>
+                <child>
+                  <object class="GtkSpinButton" id="gapWidth">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">0</property>
+                        <property name="upper">25</property>
+                        <property name="step-increment">1</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Advanced</property>
+            <style>
+              <class name="catnip-preferences-advanced"/>
+            </style>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Custom CSS</property>
+                <property name="subtitle">Please edit &lt;tt&gt;~/.config/catnip-gtk4/user.css&lt;/tt&gt; instead.</property>
+                <property name="subtitle-selectable">true</property>
+                <property name="use-markup">true</property>
+                <child>
+                  <object class="GtkButton" id="openCustomCSS">
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="AdwButtonContent">
+                        <property name="label">Open</property>
+                        <property name="icon-name">document-open-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Show Window Controls</property>
+                <property name="subtitle">Whether to show the window controls in the titlebar.</property>
+                <property name="activatable-widget">showWindowControls</property>
+                <child>
+                  <object class="GtkSwitch" id="showWindowControls">
+                    <property name="valign">center</property>
+                    <property name="active">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
