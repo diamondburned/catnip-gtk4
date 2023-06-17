@@ -82,7 +82,7 @@
                     <property name="adjustment">
                       <object class="GtkAdjustment">
                         <property name="lower">64</property>
-                        <property name="upper">4096</property>
+                        <property name="upper">2048</property>
                         <property name="value">2048</property>
                         <property name="step-increment">64</property>
                       </object>
@@ -115,6 +115,7 @@
                 <child>
                   <object class="GtkSpinButton" id="smoothFactor">
                     <property name="valign">center</property>
+                    <property name="digits">2</property>
                     <property name="adjustment">
                       <object class="GtkAdjustment">
                         <property name="lower">0</property>
